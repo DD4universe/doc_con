@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DURAI - Document Converter</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="8" fill="#2563eb"/>
+                    <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="central">D</text>
+                </svg>
+                <span class="brand">DURAI</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <h1>Welcome to DURAI Document Converter</h1>
+                <p class="subtitle">Transform your text into professional documents instantly</p>
+            </section>
+
+            <section class="converter-section">
+                <div class="converter-container">
+                    <div class="input-box">
+                        <div class="box-header">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <h2>Your Text Content</h2>
+                        </div>
+                        <textarea 
+                            id="textInput" 
+                            placeholder="Paste or type your text here...&#10;&#10;Example:&#10;• Meeting notes&#10;• Reports&#10;• Articles&#10;• Any text content you want to convert"
+                            maxlength="50000"
+                        ></textarea>
+                        <div class="character-count">
+                            <span id="charCount">0</span> / 50,000 characters
+                        </div>
+                    </div>
+
+                    <div class="arrow-divider">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+
+                    <div class="output-box">
+                        <div class="box-header">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <h2>Choose Document Format</h2>
+                        </div>
+                        
+                        <div class="format-selection">
+                            <div class="format-options">
+                                <label class="format-option">
+                                    <input type="radio" name="format" value="pdf" checked>
+                                    <div class="format-card">
+                                        <div class="format-icon pdf">📄</div>
+                                        <div class="format-name">PDF</div>
+                                        <div class="format-desc">Portable Document Format</div>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="format" value="docx">
+                                    <div class="format-card">
+                                        <div class="format-icon docx">📝</div>
+                                        <div class="format-name">DOCX</div>
+                                        <div class="format-desc">Microsoft Word Document</div>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="format" value="txt">
+                                    <div class="format-card">
+                                        <div class="format-icon txt">📃</div>
+                                        <div class="format-name">TXT</div>
+                                        <div class="format-desc">Plain Text File</div>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="format" value="rtf">
+                                    <div class="format-card">
+                                        <div class="format-icon rtf">📋</div>
+                                        <div class="format-name">RTF</div>
+                                        <div class="format-desc">Rich Text Format</div>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="format" value="html">
+                                    <div class="format-card">
+                                        <div class="format-icon html">🌐</div>
+                                        <div class="format-name">HTML</div>
+                                        <div class="format-desc">Web Page Document</div>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="format" value="markdown">
+                                    <div class="format-card">
+                                        <div class="format-icon markdown">📖</div>
+                                        <div class="format-name">Markdown</div>
+                                        <div class="format-desc">MD File Format</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="convertBtn" class="convert-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Convert & Download
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="features">
+                <h2>Why Choose DURAI?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Lightning Fast</h3>
+                        <p>Convert your documents in seconds with our optimized processing engine</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>100% Secure</h3>
+                        <p>Your data never leaves your browser. Complete privacy guaranteed</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Professional Quality</h3>
+                        <p>Industry-standard formatting and clean, readable output</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Works Everywhere</h3>
+                        <p>Fully responsive design - works on desktop, tablet, and mobile</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 DURAI Document Converter. All rights reserved.</p>
+                <p>Created by DURAI</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

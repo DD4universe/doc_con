@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - DURAI Document Converter</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .about-hero {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .about-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .about-content {
+            background: white;
+            border-radius: 16px;
+            padding: 60px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .about-section {
+            margin-bottom: 50px;
+        }
+
+        .about-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-section h2 {
+            color: #2563eb;
+            font-size: 32px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .about-section p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #475569;
+            margin-bottom: 15px;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mission-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .mission-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mission-card p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .value-item {
+            padding: 30px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #2563eb;
+            transition: transform 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .value-item h4 {
+            color: #2563eb;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .value-item p {
+            font-size: 15px;
+            color: #64748b;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px;
+            border-radius: 16px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-secondary:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                padding: 30px;
+            }
+
+            .about-hero h1 {
+                font-size: 36px;
+            }
+
+            .stats-section {
+                padding: 40px 30px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="8" fill="#2563eb"/>
+                    <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="central">D</text>
+                </svg>
+                <span class="brand">DURAI</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="about-hero">
+                <h1>About DURAI</h1>
+                <p class="subtitle">Transforming the way you create documents</p>
+            </section>
+
+            <div class="about-content">
+                <div class="about-section">
+                    <h2>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Our Story
+                    </h2>
+                    <p>
+                        DURAI Document Converter was born from a simple observation: people need a fast, secure, and reliable way to convert their text into various document formats without compromising their privacy. In today's digital age, document conversion shouldn't require uploading sensitive information to unknown servers or installing complex software.
+                    </p>
+                    <p>
+                        Founded in 2025, DURAI represents a commitment to simplicity, security, and excellence. Our platform processes everything directly in your browser, ensuring that your data never leaves your device. This approach combines the power of modern web technologies with an unwavering commitment to user privacy.
+                    </p>
+                    <p>
+                        What started as a personal project has evolved into a comprehensive document conversion solution used by professionals, students, and organizations worldwide. We believe that powerful tools should be accessible to everyone, which is why DURAI is completely free to use.
+                    </p>
+                </div>
+
+                <div class="mission-vision">
+                    <div class="mission-card">
+                        <h3>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Our Mission
+                        </h3>
+                        <p>
+                            To provide a seamless, secure, and efficient document conversion experience that empowers users to transform their ideas into professional documents instantly, without compromising privacy or quality.
+                        </p>
+                    </div>
+
+                    <div class="mission-card">
+                        <h3>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Our Vision
+                        </h3>
+                        <p>
+                            To become the world's most trusted document conversion platform, recognized for innovation, reliability, and unwavering commitment to user privacy and data security.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="about-section" style="margin-top: 60px;">
+                    <h2>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Our Core Values
+                    </h2>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <h4>🔒 Privacy First</h4>
+                            <p>Your data never leaves your browser. We don't store, track, or have access to your content.</p>
+                        </div>
+                        <div class="value-item">
+                            <h4>⚡ Speed & Efficiency</h4>
+                            <p>Lightning-fast conversions powered by modern web technologies for instant results.</p>
+                        </div>
+                        <div class="value-item">
+                            <h4>✨ Quality Output</h4>
+                            <p>Professional, industry-standard documents that meet the highest quality standards.</p>
+                        </div>
+                        <div class="value-item">
+                            <h4>🎯 User-Centric Design</h4>
+                            <p>Intuitive interface designed with user experience at the forefront of every decision.</p>
+                        </div>
+                        <div class="value-item">
+                            <h4>🌍 Accessibility</h4>
+                            <p>Free for everyone, anywhere. No registration, no hidden fees, no limitations.</p>
+                        </div>
+                        <div class="value-item">
+                            <h4>🚀 Innovation</h4>
+                            <p>Continuously improving and adding new features based on user feedback and needs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h2 style="margin-bottom: 10px;">DURAI in Numbers</h2>
+                <p style="opacity: 0.9; margin-bottom: 0;">Making an impact every day</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Document Formats</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Client-Side Processing</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Data Stored</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Conversions Available</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Ready to Get Started?</h2>
+                <p>Experience the power of instant, secure document conversion</p>
+                <div class="cta-buttons">
+                    <a href="index.html" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Start Converting
+                    </a>
+                    <a href="contact.html" class="btn btn-secondary">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 DURAI Document Converter. All rights reserved.</p>
+                <p>Created by DURAI</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
