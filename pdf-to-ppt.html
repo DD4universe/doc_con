@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to PPT Converter - Doc Converter</title>
+    <link rel="stylesheet" href="pdf-to-ppt.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">Doc Converter</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="ai-generator.html">AI Generator</a></li>
+            <li><a href="pdf-to-ppt.html" class="active">PDF to PPT</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>📊 PDF to PowerPoint Converter</h1>
+            <p>Upload PDF, edit slides, add images, and download as PPT</p>
+        </header>
+
+        <!-- Step 1: Upload PDF -->
+        <div id="uploadSection" class="section active">
+            <div class="upload-area">
+                <div class="upload-icon">📄</div>
+                <h2>Upload Your PDF</h2>
+                <p>Select a PDF file to convert into editable PowerPoint slides</p>
+                <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
+                <button class="btn-primary" onclick="document.getElementById('pdfInput').click()">
+                    Choose PDF File
+                </button>
+                <div id="fileName" class="file-name"></div>
+            </div>
+            <div id="loadingBar" class="loading-bar" style="display: none;">
+                <div class="loading-progress"></div>
+                <div class="loading-text">Processing PDF...</div>
+            </div>
+        </div>
+
+        <!-- Step 2: Edit Slides -->
+        <div id="editorSection" class="section">
+            <div class="editor-header">
+                <h2>Edit Your Slides</h2>
+                <div class="editor-actions">
+                    <button class="btn-secondary" onclick="addNewSlide()">➕ Add Slide</button>
+                    <button class="btn-primary" onclick="generatePPT()">💾 Download PPT</button>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <!-- Slide Navigation -->
+                <div class="slides-nav">
+                    <h3>Slides (<span id="slideCount">0</span>)</h3>
+                    <div id="slideThumbnails" class="slide-thumbnails"></div>
+                </div>
+
+                <!-- Slide Editor -->
+                <div class="slide-editor">
+                    <div id="currentSlide" class="current-slide">
+                        <div class="slide-canvas" id="slideCanvas">
+                            <div class="no-slide">Select or upload a PDF to start</div>
+                        </div>
+                    </div>
+
+                    <!-- Editor Controls -->
+                    <div class="editor-controls">
+                        <div class="control-group">
+                            <label>Title:</label>
+                            <input type="text" id="slideTitle" placeholder="Enter slide title" class="form-control">
+                        </div>
+                        <div class="control-group">
+                            <label>Content:</label>
+                            <textarea id="slideContent" placeholder="Enter slide content" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class="control-group">
+                            <label>Background Color:</label>
+                            <div class="color-picker">
+                                <input type="color" id="slideBgColor" value="#ffffff">
+                                <span id="colorValue">#ffffff</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label>Layout:</label>
+                            <select id="slideLayout" class="form-control">
+                                <option value="title">Title Slide</option>
+                                <option value="content" selected>Content Slide</option>
+                                <option value="twoColumn">Two Column</option>
+                                <option value="imageLeft">Image Left</option>
+                                <option value="imageRight">Image Right</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <button class="btn-accent" onclick="openImageSearch()">🖼️ Search & Add Images</button>
+                            <button class="btn-danger" onclick="deleteCurrentSlide()">🗑️ Delete Slide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Search Modal -->
+        <div id="imageSearchModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Search & Add Images</h2>
+                    <button class="close-btn" onclick="closeImageSearch()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="search-box">
+                        <input type="text" id="imageSearchInput" placeholder="Search for images..." class="form-control">
+                        <button class="btn-primary" onclick="searchImages()">🔍 Search</button>
+                    </div>
+                    <div id="imageResults" class="image-results">
+                        <div class="search-hint">
+                            🔍 Enter keywords to search for images from Unsplash
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Doc Converter. All rights reserved.</p>
+    </footer>
+
+    <script src="pdf-to-ppt.js"></script>
+</body>
+</html>
