@@ -50,7 +50,8 @@
                 <h2>Edit Your Slides</h2>
                 <div class="editor-actions">
                     <button class="btn-secondary" onclick="addNewSlide()">➕ Add Slide</button>
-                    <button class="btn-accent" onclick="openElementLibrary()">📚 Element Library</button>
+                    <button class="btn-accent" onclick="addTextCard()">📝 Add Text</button>
+                    <button class="btn-accent" onclick="openImageSearch()">🖼️ Add Image</button>
                     <button class="btn-primary" onclick="generatePPT()">💾 Download PPT</button>
                 </div>
             </div>
@@ -65,40 +66,31 @@
                 <!-- Slide Canvas with Cards -->
                 <div class="slide-editor">
                     <div class="canvas-toolbar">
-                        <button class="btn-tool" onclick="addTextCard()" title="Add Text">📝 Text</button>
-                        <button class="btn-tool" onclick="openImageSearch()" title="Add Image">🖼️ Image</button>
-                        <button class="btn-tool" onclick="deleteSelectedCard()" title="Delete Selected">🗑️ Delete</button>
-                        <select id="slideBgColor" class="bg-color-select" onchange="updateSlideBackground()" title="Background Color">
-                            <option value="#ffffff">⬜ White</option>
-                            <option value="#f8f9fa">⬜ Light Gray</option>
-                            <option value="#e3f2fd">🔵 Light Blue</option>
-                            <option value="#f3e5f5">🟣 Light Purple</option>
-                            <option value="#e8f5e9">🟢 Light Green</option>
-                            <option value="#fff3e0">🟠 Light Orange</option>
-                        </select>
-                        <button class="btn-tool btn-danger-tool" onclick="deleteCurrentSlide()" title="Delete Slide">🗑️ Slide</button>
+                        <div class="toolbar-section">
+                            <label>Background:</label>
+                            <select id="slideBgColor" class="bg-color-select" onchange="updateSlideBackground()">
+                                <option value="#ffffff">⬜ White</option>
+                                <option value="#f8f9fa">⬜ Light Gray</option>
+                                <option value="#e3f2fd">🔵 Light Blue</option>
+                                <option value="#f3e5f5">🟣 Light Purple</option>
+                                <option value="#e8f5e9">🟢 Light Green</option>
+                                <option value="#fff3e0">🟠 Light Orange</option>
+                            </select>
+                        </div>
+                        <div class="toolbar-section">
+                            <button class="btn-tool" onclick="deleteSelectedCard()" title="Delete Selected Element">🗑️ Delete Selected</button>
+                            <button class="btn-tool btn-danger-tool" onclick="deleteCurrentSlide()" title="Delete Slide">🗑️ Delete Slide</button>
+                        </div>
                     </div>
                     
                     <div id="currentSlide" class="current-slide">
                         <div class="slide-canvas" id="slideCanvas" onclick="deselectAllCards()">
-                            <div class="no-slide">Upload a PDF or add a new slide to start</div>
+                            <div class="no-slide">Upload a PDF to automatically create slides, or add a new slide manually</div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Element Library Panel -->
-                <div class="element-library" id="elementLibrary">
-                    <div class="library-header">
-                        <h3>📚 Extracted Elements</h3>
-                        <button class="close-btn" onclick="closeElementLibrary()">&times;</button>
-                    </div>
-                    <div class="library-tabs">
-                        <button class="tab-btn active" onclick="switchLibraryTab('all')">All</button>
-                        <button class="tab-btn" onclick="switchLibraryTab('text')">Text</button>
-                        <button class="tab-btn" onclick="switchLibraryTab('images')">Images</button>
-                    </div>
-                    <div id="libraryContent" class="library-content">
-                        <div class="empty-library">No elements extracted yet. Upload a PDF to get started.</div>
+                    
+                    <div class="canvas-hint-box">
+                        💡 <strong>Tip:</strong> Click any text to edit • Drag elements to move • Drag corner to resize • Right-click image to copy
                     </div>
                 </div>
             </div>

@@ -57,7 +57,7 @@ async function handlePDFUpload(event) {
     }
 }
 
-// Convert PDF pages to slides with extracted elements
+// Convert PDF pages to slides - Create image snapshot of each page for easy editing
 async function convertPDFToSlides() {
     slides = [];
     extractedElements = [];
@@ -68,81 +68,7 @@ async function convertPDFToSlides() {
             const page = await pdfDoc.getPage(pageNum);
             const viewport = page.getViewport({ scale: 2.0 });
             
-            // Extract text content with positions
-            const textContent = await page.getTextContent();
-            const textBlocks = [];
-            let currentBlock = { text: '', items: [] };
-            
-            textContent.items.forEach((item, index) => {
-                const transform = item.transform;
-                const x = transform[4];
-                const y = viewport.height - transform[5]; // Flip Y coordinate
-                const fontSize = Math.sqrt(transform[0] * transform[0] + transform[1] * transform[1]);
-                
-                // Group nearby text items into blocks
-                if (currentBlock.items.length === 0) {
-                    currentBlock = {
-                        text: item.str,
-                        items: [{ str: item.str, x, y, fontSize, width: item.width, height: item.height }],
-                        x, y, fontSize,
-                        width: item.width,
-                        height: item.height
-                    };
-                } else {
-                    const lastItem = currentBlock.items[currentBlock.items.length - 1];
-                    const distanceY = Math.abs(y - lastItem.y);
-                    const distanceX = x - (lastItem.x + lastItem.width);
-                    
-                    // Same line or close enough
-                    if (distanceY < fontSize * 0.5 && distanceX < fontSize * 2) {
-                        currentBlock.text += ' ' + item.str;
-                        currentBlock.items.push({ str: item.str, x, y, fontSize, width: item.width, height: item.height });
-                        currentBlock.width = (x + item.width) - currentBlock.x;
-                        currentBlock.height = Math.max(currentBlock.height, item.height);
-                    } else {
-                        // New block
-                        if (currentBlock.text.trim()) {
-                            textBlocks.push({ ...currentBlock });
-                            extractedElements.push({
-                                id: `elem_${Date.now()}_${extractedElements.length}`,
-                                type: 'text',
-                                content: currentBlock.text.trim(),
-                                page: pageNum,
-                                x: currentBlock.x,
-                                y: currentBlock.y,
-                                width: currentBlock.width,
-                                height: currentBlock.height,
-                                fontSize: currentBlock.fontSize
-                            });
-                        }
-                        currentBlock = {
-                            text: item.str,
-                            items: [{ str: item.str, x, y, fontSize, width: item.width, height: item.height }],
-                            x, y, fontSize,
-                            width: item.width,
-                            height: item.height
-                        };
-                    }
-                }
-            });
-            
-            // Add last block
-            if (currentBlock.text.trim()) {
-                textBlocks.push(currentBlock);
-                extractedElements.push({
-                    id: `elem_${Date.now()}_${extractedElements.length}`,
-                    type: 'text',
-                    content: currentBlock.text.trim(),
-                    page: pageNum,
-                    x: currentBlock.x,
-                    y: currentBlock.y,
-                    width: currentBlock.width,
-                    height: currentBlock.height,
-                    fontSize: currentBlock.fontSize
-                });
-            }
-            
-            // Extract images from PDF page
+            // Create high-quality canvas snapshot of PDF page
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             canvas.width = viewport.width;
@@ -153,33 +79,35 @@ async function convertPDFToSlides() {
                 viewport: viewport
             }).promise;
             
-            // Try to extract embedded images
-            const ops = await page.getOperatorList();
-            for (let i = 0; i < ops.fnArray.length; i++) {
-                if (ops.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
-                    try {
-                        const imgData = canvas.toDataURL('image/png');
-                        extractedElements.push({
-                            id: `elem_${Date.now()}_${extractedElements.length}`,
-                            type: 'image',
-                            src: imgData,
-                            page: pageNum,
-                            x: 50,
-                            y: 50,
-                            width: 200,
-                            height: 150
-                        });
-                    } catch (e) {
-                        console.warn('Could not extract image', e);
-                    }
-                }
-            }
+            // Convert entire page to image
+            const pageImageData = canvas.toDataURL('image/png');
             
-            // Create slide with cards from this page
+            // Calculate card dimensions to fit slide canvas (800x600)
+            const maxWidth = 750;
+            const maxHeight = 550;
+            const scale = Math.min(maxWidth / viewport.width, maxHeight / viewport.height);
+            const cardWidth = viewport.width * scale;
+            const cardHeight = viewport.height * scale;
+            
+            // Create slide with page image as a card
             const slide = {
                 id: Date.now() + pageNum,
                 bgColor: '#ffffff',
-                cards: []
+                cards: [
+                    {
+                        id: cardIdCounter++,
+                        type: 'image',
+                        src: pageImageData,
+                        x: 25,
+                        y: 25,
+                        width: cardWidth,
+                        height: cardHeight,
+                        fit: 'contain',
+                        zIndex: 1,
+                        fromPDF: true,
+                        pageNum: pageNum
+                    }
+                ]
             };
             
             slides.push(slide);
@@ -187,14 +115,13 @@ async function convertPDFToSlides() {
             // Update progress
             const progress = (pageNum / numPages) * 100;
             document.querySelector('.loading-progress').style.width = progress + '%';
-            document.querySelector('.loading-text').textContent = `Extracting page ${pageNum} of ${numPages}...`;
+            document.querySelector('.loading-text').textContent = `Converting page ${pageNum} of ${numPages}...`;
         } catch (error) {
             console.error(`Error processing page ${pageNum}:`, error);
         }
     }
     
     renderSlideThumbnails();
-    renderElementLibrary();
     if (slides.length > 0) {
         selectSlide(0);
     }
@@ -210,10 +137,37 @@ function renderSlideThumbnails() {
         thumb.className = 'slide-thumb' + (index === currentSlideIndex ? ' active' : '');
         thumb.onclick = () => selectSlide(index);
         
+        // Create mini canvas for thumbnail
+        const miniCanvas = document.createElement('canvas');
+        miniCanvas.width = 100;
+        miniCanvas.height = 75;
+        const ctx = miniCanvas.getContext('2d');
+        
+        // Draw background
+        ctx.fillStyle = slide.bgColor || '#ffffff';
+        ctx.fillRect(0, 0, 100, 75);
+        
+        // Draw cards preview
+        if (slide.cards && slide.cards.length > 0) {
+            slide.cards.forEach(card => {
+                const scaleX = 100 / 800;
+                const scaleY = 75 / 600;
+                
+                if (card.type === 'image' && card.src) {
+                    const img = new Image();
+                    img.src = card.src;
+                    ctx.drawImage(img, card.x * scaleX, card.y * scaleY, card.width * scaleX, card.height * scaleY);
+                } else if (card.type === 'text') {
+                    ctx.fillStyle = card.color || '#333';
+                    ctx.fillRect(card.x * scaleX, card.y * scaleY, card.width * scaleX, card.height * scaleY);
+                }
+            });
+        }
+        
         const thumbContent = `
             <div class="thumb-number">${index + 1}</div>
             <div class="thumb-preview" style="background-color: ${slide.bgColor}">
-                <div class="thumb-cards">${slide.cards ? slide.cards.length : 0} elements</div>
+                ${slide.cards && slide.cards.length > 0 ? `<img src="${miniCanvas.toDataURL()}" alt="Slide ${index + 1}">` : '<div class="thumb-empty">Empty</div>'}
             </div>
         `;
         thumb.innerHTML = thumbContent;
@@ -221,46 +175,6 @@ function renderSlideThumbnails() {
     });
     
     document.getElementById('slideCount').textContent = slides.length;
-}
-
-// Render element library
-function renderElementLibrary() {
-    const content = document.getElementById('libraryContent');
-    
-    if (extractedElements.length === 0) {
-        content.innerHTML = '<div class="empty-library">No elements extracted yet. Upload a PDF to get started.</div>';
-        return;
-    }
-    
-    content.innerHTML = '';
-    
-    extractedElements.forEach(element => {
-        const card = document.createElement('div');
-        card.className = 'library-card';
-        card.draggable = true;
-        card.ondragstart = (e) => handleLibraryDragStart(e, element);
-        
-        if (element.type === 'text') {
-            card.innerHTML = `
-                <div class="library-card-icon">📝</div>
-                <div class="library-card-content">
-                    <div class="library-card-text">${element.content.substring(0, 50)}${element.content.length > 50 ? '...' : ''}</div>
-                    <div class="library-card-info">Page ${element.page} • Text</div>
-                </div>
-                <button class="library-card-add" onclick="addElementToSlide('${element.id}')">+</button>
-            `;
-        } else if (element.type === 'image') {
-            card.innerHTML = `
-                <div class="library-card-image">
-                    <img src="${element.src}" alt="Image">
-                </div>
-                <div class="library-card-info">Page ${element.page} • Image</div>
-                <button class="library-card-add" onclick="addElementToSlide('${element.id}')">+</button>
-            `;
-        }
-        
-        content.appendChild(card);
-    });
 }
 
 // Select a slide for editing
@@ -370,37 +284,34 @@ function renderCard(card) {
 }
 
 // Card manipulation functions
-function addElementToSlide(elementId) {
-    const element = extractedElements.find(e => e.id === elementId);
-    if (!element || slides.length === 0) return;
+// Add text card to current slide
+function addTextCard() {
+    if (slides.length === 0) {
+        showNotification('Create a slide first', 'info');
+        return;
+    }
     
     const slide = slides[currentSlideIndex];
     if (!slide.cards) slide.cards = [];
     
     const card = {
         id: cardIdCounter++,
-        type: element.type,
-        x: 50 + (slide.cards.length * 20),
-        y: 50 + (slide.cards.length * 20),
-        width: element.type === 'text' ? 400 : 300,
-        height: element.type === 'text' ? 100 : 200,
+        type: 'text',
+        content: 'Click to edit text',
+        x: 100 + (slide.cards.length * 20),
+        y: 100 + (slide.cards.length * 20),
+        width: 400,
+        height: 100,
+        fontSize: 18,
+        color: '#333333',
+        align: 'left',
         zIndex: slide.cards.length + 1
     };
-    
-    if (element.type === 'text') {
-        card.content = element.content;
-        card.fontSize = Math.min(Math.max(element.fontSize || 16, 12), 32);
-        card.color = '#333333';
-        card.align = 'left';
-    } else if (element.type === 'image') {
-        card.src = element.src;
-        card.fit = 'contain';
-    }
     
     slide.cards.push(card);
     renderSlideCanvas();
     renderSlideThumbnails();
-    showNotification('Element added to slide!', 'success');
+    showNotification('Text card added!', 'success');
 }
 
 // Image Search Functions
@@ -1229,34 +1140,7 @@ function updateSlideBackground() {
     renderSlideThumbnails();
 }
 
-function openElementLibrary() {
-    document.getElementById('elementLibrary').classList.add('open');
-}
-
-function closeElementLibrary() {
-    document.getElementById('elementLibrary').classList.remove('open');
-}
-
-function switchLibraryTab(tab) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    // Filter elements by tab
-    const cards = document.querySelectorAll('.library-card');
-    cards.forEach(card => {
-        if (tab === 'all') {
-            card.style.display = 'flex';
-        } else if (tab === 'text') {
-            card.style.display = card.querySelector('.library-card-icon') ? 'flex' : 'none';
-        } else if (tab === 'images') {
-            card.style.display = card.querySelector('.library-card-image') ? 'flex' : 'none';
-        }
-    });
-}
-
-function handleLibraryDragStart(e, element) {
-    e.dataTransfer.setData('elementId', element.id);
-}
+// Removed library functions - no longer needed with simplified workflow
 
 // Add new slide
 function addNewSlide() {
