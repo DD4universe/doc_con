@@ -50,6 +50,7 @@
                 <h2>Edit Your Slides</h2>
                 <div class="editor-actions">
                     <button class="btn-secondary" onclick="addNewSlide()">➕ Add Slide</button>
+                    <button class="btn-accent" onclick="openElementLibrary()">📚 Element Library</button>
                     <button class="btn-primary" onclick="generatePPT()">💾 Download PPT</button>
                 </div>
             </div>
@@ -61,80 +62,43 @@
                     <div id="slideThumbnails" class="slide-thumbnails"></div>
                 </div>
 
-                <!-- Slide Editor -->
+                <!-- Slide Canvas with Cards -->
                 <div class="slide-editor">
+                    <div class="canvas-toolbar">
+                        <button class="btn-tool" onclick="addTextCard()" title="Add Text">📝 Text</button>
+                        <button class="btn-tool" onclick="openImageSearch()" title="Add Image">🖼️ Image</button>
+                        <button class="btn-tool" onclick="deleteSelectedCard()" title="Delete Selected">🗑️ Delete</button>
+                        <select id="slideBgColor" class="bg-color-select" onchange="updateSlideBackground()" title="Background Color">
+                            <option value="#ffffff">⬜ White</option>
+                            <option value="#f8f9fa">⬜ Light Gray</option>
+                            <option value="#e3f2fd">🔵 Light Blue</option>
+                            <option value="#f3e5f5">🟣 Light Purple</option>
+                            <option value="#e8f5e9">🟢 Light Green</option>
+                            <option value="#fff3e0">🟠 Light Orange</option>
+                        </select>
+                        <button class="btn-tool btn-danger-tool" onclick="deleteCurrentSlide()" title="Delete Slide">🗑️ Slide</button>
+                    </div>
+                    
                     <div id="currentSlide" class="current-slide">
-                        <div class="slide-canvas" id="slideCanvas">
-                            <div class="no-slide">Select or upload a PDF to start</div>
+                        <div class="slide-canvas" id="slideCanvas" onclick="deselectAllCards()">
+                            <div class="no-slide">Upload a PDF or add a new slide to start</div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Editor Controls -->
-                    <div class="editor-controls">
-                        <div class="control-group">
-                            <label>Title:</label>
-                            <div class="text-controls">
-                                <input type="text" id="slideTitle" placeholder="Enter slide title" class="form-control">
-                                <div class="text-formatting">
-                                    <input type="color" id="titleColor" value="#333333" title="Title Color">
-                                    <select id="titleAlign" class="mini-control" title="Text Alignment">
-                                        <option value="left">⬅️ Left</option>
-                                        <option value="center">↔️ Center</option>
-                                        <option value="right">➡️ Right</option>
-                                    </select>
-                                    <button class="btn-check-grammar" onclick="checkGrammar('slideTitle')" title="Check Grammar">✓ Grammar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label>Content:</label>
-                            <div class="text-controls">
-                                <textarea id="slideContent" placeholder="Enter slide content" class="form-control" rows="4"></textarea>
-                                <div class="text-formatting">
-                                    <input type="color" id="contentColor" value="#666666" title="Content Color">
-                                    <select id="contentAlign" class="mini-control" title="Text Alignment">
-                                        <option value="left">⬅️ Left</option>
-                                        <option value="center">↔️ Center</option>
-                                        <option value="right">➡️ Right</option>
-                                        <option value="justify">↔️ Justify</option>
-                                    </select>
-                                    <button class="btn-check-grammar" onclick="checkGrammar('slideContent')" title="Check Grammar">✓ Grammar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label>Background Color:</label>
-                            <div class="color-picker">
-                                <input type="color" id="slideBgColor" value="#ffffff">
-                                <span id="colorValue">#ffffff</span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label>Layout:</label>
-                            <select id="slideLayout" class="form-control">
-                                <option value="title">Title Slide</option>
-                                <option value="content" selected>Content Slide</option>
-                                <option value="twoColumn">Two Column</option>
-                                <option value="imageLeft">Image Left</option>
-                                <option value="imageRight">Image Right</option>
-                            </select>
-                        </div>
-                        <div class="control-group">
-                            <label>Element Controls:</label>
-                            <div class="element-controls">
-                                <button class="btn-mini" onclick="toggleGroupMode()" id="groupBtn" title="Group/Ungroup Elements">🔗 Group</button>
-                                <button class="btn-mini" onclick="bringToFront()" title="Bring to Front">⬆️ Front</button>
-                                <button class="btn-mini" onclick="sendToBack()" title="Send to Back">⬇️ Back</button>
-                                <label class="toggle-label">
-                                    <input type="checkbox" id="dragMode" onchange="toggleDragMode()">
-                                    <span>🖱️ Drag Mode</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <button class="btn-accent" onclick="openImageSearch()">🖼️ Search & Add Images</button>
-                            <button class="btn-danger" onclick="deleteCurrentSlide()">🗑️ Delete Slide</button>
-                        </div>
+                <!-- Element Library Panel -->
+                <div class="element-library" id="elementLibrary">
+                    <div class="library-header">
+                        <h3>📚 Extracted Elements</h3>
+                        <button class="close-btn" onclick="closeElementLibrary()">&times;</button>
+                    </div>
+                    <div class="library-tabs">
+                        <button class="tab-btn active" onclick="switchLibraryTab('all')">All</button>
+                        <button class="tab-btn" onclick="switchLibraryTab('text')">Text</button>
+                        <button class="tab-btn" onclick="switchLibraryTab('images')">Images</button>
+                    </div>
+                    <div id="libraryContent" class="library-content">
+                        <div class="empty-library">No elements extracted yet. Upload a PDF to get started.</div>
                     </div>
                 </div>
             </div>
