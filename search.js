@@ -2,7 +2,7 @@
 (function(){
   const SEARCH_KEYWORDS = [
     'pdf ai',
-    'durai pdf',
+    'firstpage pdf',
     'pdf converter',
     'website report',
     'pdf to ppt',
@@ -16,7 +16,7 @@
 
   const SEARCH_MAP = {
     'pdf ai': { label: 'AI Document Generator', href: 'ai-generator.html' },
-    'durai pdf': { label: 'AI Document Generator', href: 'ai-generator.html' },
+    'firstpage pdf': { label: 'AI Document Generator', href: 'ai-generator.html' },
     'pdf converter': { label: 'PDF to PPT / Converters', href: 'pdf-to-ppt.html' },
     'website report': { label: 'Website Report Generator', href: 'website-report.html' },
     'pdf to ppt': { label: 'PDF to PPT Converter', href: 'pdf-to-ppt.html' },

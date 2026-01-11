@@ -79,16 +79,16 @@ async function downloadAsPDF(text) {
     
     // Set document properties
     doc.setProperties({
-        title: 'DURAI Document',
+        title: 'FirstPage Document',
         subject: 'Converted Document',
-        author: 'DURAI Document Converter',
-        creator: 'DURAI'
+        author: 'FirstPage Document Converter',
+        creator: 'FirstPage'
     });
     
     // Add header
     doc.setFontSize(20);
     doc.setTextColor(37, 99, 235);
-    doc.text('DURAI Document', 20, 20);
+    doc.text('FirstPage Document', 20, 20);
     
     doc.setFontSize(10);
     doc.setTextColor(100, 116, 139);
@@ -109,10 +109,10 @@ async function downloadAsPDF(text) {
     for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
         doc.text(`Page ${i} of ${pageCount}`, 105, 285, { align: 'center' });
-        doc.text('Created with DURAI Document Converter', 105, 290, { align: 'center' });
+        doc.text('Created with FirstPage Document Converter', 105, 290, { align: 'center' });
     }
     
-    doc.save('DURAI-document.pdf');
+    doc.save('FirstPage-document.pdf');
 }
 
 // DOCX Download (simplified version)
@@ -122,7 +122,7 @@ async function downloadAsDOCX(text) {
         <html>
         <head>
             <meta charset="utf-8">
-            <title>DURAI Document</title>
+            <title>FirstPage Document</title>
             <style>
                 body { font-family: Arial, sans-serif; line-height: 1.6; padding: 40px; }
                 h1 { color: #2563eb; }
@@ -132,14 +132,14 @@ async function downloadAsDOCX(text) {
         </head>
         <body>
             <div class="header">
-                <h1>DURAI Document</h1>
+                <h1>FirstPage Document</h1>
                 <p>Generated on ${new Date().toLocaleDateString()}</p>
             </div>
             <div class="content">
                 ${text.replace(/\n/g, '<br>')}
             </div>
             <div class="footer">
-                <p>Created with DURAI Document Converter</p>
+                <p>Created with FirstPage Document Converter</p>
             </div>
         </body>
         </html>
@@ -152,27 +152,27 @@ async function downloadAsDOCX(text) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'DURAI-document.doc';
+    link.download = 'FirstPage-document.doc';
     link.click();
     URL.revokeObjectURL(url);
 }
 
 // TXT Download
 function downloadAsTXT(text) {
-    const content = `DURAI DOCUMENT CONVERTER
+    const content = `FIRSTPAGE DOCUMENT CONVERTER
 Generated on ${new Date().toLocaleDateString()}
 ${'='.repeat(50)}
 
 ${text}
 
 ${'='.repeat(50)}
-Created with DURAI Document Converter`;
+Created with FirstPage Document Converter`;
     
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'DURAI-document.txt';
+    link.download = 'FirstPage-document.txt';
     link.click();
     URL.revokeObjectURL(url);
 }
@@ -183,20 +183,20 @@ function downloadAsRTF(text) {
 {\\fonttbl{\\f0 Arial;}}
 {\\colortbl;\\red37\\green99\\blue235;\\red30\\green41\\blue59;}
 \\f0\\fs24
-{\\cf1\\b\\fs32 DURAI Document\\par}
+{\\cf1\\b\\fs32 FirstPage Document\\par}
 \\cf2\\fs20 Generated on ${new Date().toLocaleDateString()}\\par
 \\par
 ${text.replace(/\n/g, '\\par\n')}
 \\par
 \\par
-{\\fs18 Created with DURAI Document Converter}
+{\\fs18 Created with FirstPage Document Converter}
 }`;
     
     const blob = new Blob([rtfContent], { type: 'application/rtf' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'DURAI-document.rtf';
+    link.download = 'FirstPage-document.rtf';
     link.click();
     URL.revokeObjectURL(url);
 }
@@ -208,7 +208,7 @@ function downloadAsHTML(text) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DURAI Document</title>
+    <title>FirstPage Document</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -246,12 +246,12 @@ function downloadAsHTML(text) {
 </head>
 <body>
     <div class="header">
-        <h1>DURAI Document</h1>
+        <h1>FirstPage Document</h1>
         <p class="date">Generated on ${new Date().toLocaleDateString()}</p>
     </div>
     <div class="content">${text}</div>
     <div class="footer">
-        <p>Created with DURAI Document Converter</p>
+        <p>Created with FirstPage Document Converter</p>
     </div>
 </body>
 </html>`;
@@ -260,14 +260,14 @@ function downloadAsHTML(text) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'DURAI-document.html';
+    link.download = 'FirstPage-document.html';
     link.click();
     URL.revokeObjectURL(url);
 }
 
 // Markdown Download
 function downloadAsMarkdown(text) {
-    const mdContent = `# DURAI Document
+    const mdContent = `# FirstPage Document
 
 **Generated on ${new Date().toLocaleDateString()}**
 
@@ -277,13 +277,13 @@ ${text}
 
 ---
 
-*Created with DURAI Document Converter*`;
+*Created with FirstPage Document Converter*`;
     
     const blob = new Blob([mdContent], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'DURAI-document.md';
+    link.download = 'FirstPage-document.md';
     link.click();
     URL.revokeObjectURL(url);
 }

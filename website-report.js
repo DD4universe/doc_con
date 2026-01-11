@@ -7,7 +7,7 @@ let domainProfiles = null; // Loaded external domain usage profiles
 // Default keywords used by report SEO generator when none provided
 const DEFAULT_SEARCH_KEYWORDS = [
     'pdf ai',
-    'durai pdf',
+    'firstpage pdf',
     'pdf converter',
     'website report',
     'pdf to ppt',

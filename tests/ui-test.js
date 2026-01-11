@@ -29,7 +29,7 @@ const path = require('path');
     // Test SEO generation in AI Generator
     try {
       await page.waitForSelector('#seoKeywords', { timeout: 2000 });
-      await page.evaluate(() => { document.getElementById('seoKeywords').value = 'pdf ai,durai pdf'; });
+      await page.evaluate(() => { document.getElementById('seoKeywords').value = 'pdf ai,firstpage pdf'; });
       await page.$eval('#generateSeoBtn', btn => btn.click());
       // Wait for preview seo-section
       await page.waitForSelector('#documentPreview .seo-section', { timeout: 5000 }).catch(() => {});
